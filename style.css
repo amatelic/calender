@@ -1,0 +1,71 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0 0;
+}
+.calender {
+  margin: 0 auto;
+  display: flex;
+  max-width: 400px;
+  height: auto;
+  padding-bottom: 10px;
+  flex-direction: column;
+  background: #607D8B;
+  color: #ECEFF1;
+  font-family: 'Montserrat', sans-serif;
+  align-items: center;
+  box-shadow: 2px 2px 20px 1px gray;
+}
+
+.calender__title {
+  width: auto;
+
+}
+
+
+.calender__table  td{
+  text-align: center;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.calender__table  td:active{
+  background: #546E7A;
+}
+
+.calender__table  td:hover{
+  background: #37474F;
+}
+
+.calender__body td {
+  border-radius: 50%;
+  padding: 13px 10px;
+}
+
+.calender__header td {
+  width: 35px;
+  padding: 5px
+}
+.calender__thead tr > td:hover {
+  background: none;
+}
+
+.calender__thead tr > td > h3 {
+  padding: 0;
+  margin: 0px 0px 20px 0px;
+  font-size: 1.5em;
+}
+
+.calender__header > td:hover {
+  background: none;
+}
+
+.calender__pointer {
+  background: #FF9800;
+  color: #546E7A;
+}

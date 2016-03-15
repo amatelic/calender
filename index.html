@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create calender</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <div class="calender"></div>
+  <script src="./helpers.js"></script>
+  <script src="./main.js"></script>
+  <script src="./view.js"></script>
+  <script src="./calenderView.js"></script>
+  <script>
+    var calender = new Calender();
+    new CalenderView({el: '.calender', data: calender});
+  </script>
+</body>
+</html>
