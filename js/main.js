@@ -1,8 +1,8 @@
 class Calender {
-  constructor(el) {
-    this.months = ['January', 'February', 'March', 'April', 'May', 'June',
+  constructor(config = {}) {
+    this.months = config.months || ['January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'];
-    this.days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    this.days = config.days || ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     this.now = new Date();
     this.today = (new Date()).getDate();
   }

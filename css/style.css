@@ -7,6 +7,9 @@ html, body {
 
 body {
   margin: 0 0;
+  user-select: none;
+  webkit-touch-callout: none;
+  webkit-user-select: none;
 }
 .calender {
   margin: 0 auto;
@@ -20,18 +23,22 @@ body {
   font-family: 'Montserrat', sans-serif;
   align-items: center;
   box-shadow: 2px 2px 20px 1px gray;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .calender__title {
   width: auto;
-
 }
 
 
-.calender__table  td{
+.calender__table  td {
   text-align: center;
   font-size: 1em;
   cursor: pointer;
+  user-select: none;
 }
 
 .calender__table  td:active{
@@ -45,6 +52,9 @@ body {
 .calender__body td {
   border-radius: 50%;
   padding: 13px 10px;
+  user-select: none;
+  webkit-touch-callout: none;
+  webkit-user-select: none;
 }
 
 .calender__header td {
@@ -63,9 +73,28 @@ body {
 
 .calender__header > td:hover {
   background: none;
+  color: white;
+
+}
+
+.calender__body tr > td:active {
+  color: white;
+  background: #37474F;
+  box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
+  animation-duration: 4s;
 }
 
 .calender__pointer {
   background: #FF9800;
   color: #546E7A;
+  animation-name: animation--todays--day;
+  animation-duration: 4s;
+}
+
+@keyframes animation--todays--day {
+    0%   {transform: scale(1)}
+    25%  {transform: scale(1.2)}
+    50%  {transform: scale(1)}
+    75%  {transform: scale(1.1)}
+    100% {transform: scale(1)}
 }

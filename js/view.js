@@ -1,6 +1,3 @@
-//what dose it need
-//support for  rendering
-//support for eevents
 const config = {
   $el: '',
   el: '',
@@ -16,17 +13,27 @@ class View {
     this.addEvents();
   }
 
+  /**
+   * Method that fires before render
+   */
   renderBefore() {};
-
+  /**
+   * Method for rendering the template
+   * @return DOM element
+   */
   render() {
     return this.$el.innerHTML = this.template(this.data);
   }
-
+  /**
+   * Method that fires after render
+   */
   renderAfter() {};
 
   events() {
     return {};
   }
+
+  template() {}
 
   addEvents() {
     let events = this.events();
@@ -34,12 +41,11 @@ class View {
       const args = event.split(' '); //split arguments from events object Example['click', '.test']
       const els  = (args.length <= 1) ? this.$el : this.$el.querySelectorAll(args[1]);
       if (!this[events[event]]) {
-        throw Error(`Method ${events[event]} dosen\'t exsist `);
+        throw Error(`Method ${events[event]} dosen\'t exsist in class`);
       }
       Array.from(els).forEach((el) => {
         el.addEventListener(args[0], this[events[event]].bind(this));
       });
     }
   }
-  template() {}
 }
