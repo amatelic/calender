@@ -41,24 +41,29 @@ class CalenderView extends View {
   renderAfter() {
     //have to get better solution
     fetch('http://localhost:3000/dates')
-      .then(data =>data.json())
+      .then(data => data.json())
       .then(this.displayNotifications.bind(this));
   }
 
   displayNotifications(data) {
-    var table = Array.from(this.$el.querySelector('tbody').querySelectorAll('td'));
-    table.forEach((e) => {
-      let day = parseInt(e.innerHTML);
-      let dayIndex = data.days.indexOf(day);
-      if (day === this.data.today || dayIndex !== -1) {
-        if (dayIndex !== -1) {
-          e.dataset.id = dayIndex;
-          e.classList.add('calender__events');
-          return;
-        }
-        e.classList.add('calender__pointer');
-      }
-    });
+    this.toast.addData(data.text);
+    let table = Array.from(this.$el.querySelector('tbody').querySelectorAll('td'));
+    let days = data.days;
+
+    table.filter((el) => {
+      let day = parseInt(el.innerHTML);
+      return valueExist(days, day) || day === this.data.today;
+    }).map(this.addCalenderEvents.bind(data));
+
+  }
+
+  addCalenderEvents(el) {
+    let days = this.days; //binding the array with the bind function line 55
+    let day = parseInt(el.innerHTML);
+    let className = (valueExist(days, day))
+      ? 'calender__events' : 'calender__pointer';
+    el.dataset.id = days.indexOf(day);
+    el.classList.add(className);
   }
 
   updateDOM(month, year) {
@@ -78,6 +83,7 @@ class CalenderView extends View {
     let year = this.data.now.getFullYear();
     month = this.data.now.getMonth();
     this.updateDOM(month, year);
+    this.renderAfter();
   }
   /**
    * Creating the table for the dates
@@ -85,16 +91,15 @@ class CalenderView extends View {
    * @param String
    */
   createTables(days) {
-    var data = days.map((data) => {
+    return `<tr> ${days.map((data) => {
       return `<td>${data.join('</td><td>')}</td>`;
-    });
-    return `<tr>${data.join('</tr><tr>')}</tr>`;
+    }).join('</tr><tr>')} </tr> `;
   }
 
   show(e) {
-    if(e.target.localName === 'td') {
+    if (e.target.localName === 'td') {
       var id = e.target.getAttribute('data-id');
-      this.toast.showNotification();
+      this.toast.showNotification(id);
     }
   }
 
