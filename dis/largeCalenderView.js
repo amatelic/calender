@@ -4,11 +4,9 @@ var ToastView = require('./toastView');
 var h = require('./helpers');
 var valueExist  = h.valueExist;
 
-class CalenderView extends View {
+class CalenderLargeView extends View {
   constructor(obj) {
     super(obj);
-    console.log(this);
-    // this.toast = new ToastView({el: '.toast'});
   }
 
   events() {
@@ -23,8 +21,8 @@ class CalenderView extends View {
     let month = obj.now.getMonth();
     let year = obj.now.getFullYear();
     return `
-        <h1 class="calender__title">Calender</h1>
-        <table class="calender__table">
+        <h1 class="calender__title calender--large">Calender</h1>
+        <table class="calender__table calender--large--table">
           <thead class="calender__thead">
             <tr>
               <td class="year" colspan="7"><h3>${year}</h3></td>
@@ -38,7 +36,7 @@ class CalenderView extends View {
               <td>${obj.getDays().join('</td><td>')}</td>
             </tr>
           </thead>
-          <tbody class="calender__body calender--mini--body">
+          <tbody class="calender__body calender--large--body">
             ${this.createTables(this.data.getDaysInMonth(month, year))}
           </tbody>
     `;
@@ -110,4 +108,4 @@ class CalenderView extends View {
   }
 
 }
-module.exports = CalenderView;
+module.exports = CalenderLargeView;
