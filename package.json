@@ -5,8 +5,16 @@
   "main": "index.js",
   "scripts": {
     "start": "live-server & json-server ./data.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape test/calenderview.js --harmony-destructuring "
   },
   "author": "Anže Matelič <amatelic93@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "install": "^0.6.1",
+    "mock-browser": "^0.92.11",
+    "tap-dot": "^1.0.4",
+    "tape": "^4.5.1",
+    "watchify": "^3.7.0"
+  }
 }

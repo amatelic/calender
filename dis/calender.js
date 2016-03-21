@@ -1,5 +1,7 @@
+"use strict";
 class Calender {
-  constructor(config = {}) {
+  constructor(config) {
+    config = config || {};
     this.months = config.months || ['January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'];
     this.days = config.days || ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -27,4 +29,14 @@ class Calender {
     return days;
   }
 
+  getMonths() {
+    return this.months;
+  }
+
+  getDays() {
+    return this.days;
+  }
+
 };
+
+module.exports = Calender;

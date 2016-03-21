@@ -1,4 +1,6 @@
+"use strict";
 //@TODO create model for test data
+var View = require('./view');
 class ToastView extends View {
   constructor(conf) {
     super(conf);
@@ -37,3 +39,5 @@ class ToastView extends View {
     this.textData = data;
   }
 }
+
+module.exports = ToastView;

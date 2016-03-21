@@ -1,12 +1,11 @@
+"use strict";
 const config = {
   $el: '',
-  el: '',
 };
 
 class View {
   constructor(viewConfig) {
     Object.assign(this, config, viewConfig);
-    this.$el = document.querySelector(this.el);
     this.renderBefore();
     this.render();
     this.renderAfter();
@@ -22,6 +21,7 @@ class View {
    * @return DOM element
    */
   render() {
+    console.log(this.$el);
     return this.$el.innerHTML = this.template(this.data);
   }
   /**
@@ -49,3 +49,5 @@ class View {
     }
   }
 }
+
+module.exports = View;

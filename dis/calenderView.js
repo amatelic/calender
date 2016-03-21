@@ -1,8 +1,14 @@
+"use strict";
+var View = require('./view');
+var ToastView = require('./toastView');
+var h = require('./helpers');
+var valueExist  = h.valueExist;
 
 class CalenderView extends View {
   constructor(obj) {
     super(obj);
-    this.toast = new ToastView({el: '.toast'});
+    console.log(this);
+    // this.toast = new ToastView({el: '.toast'});
   }
 
   events() {
@@ -13,9 +19,9 @@ class CalenderView extends View {
     };
   }
 
-  template({days, months, now, today}) {
-    let month = now.getMonth();
-    let year = now.getFullYear();
+  template(obj) {
+    let month = obj.now.getMonth();
+    let year = obj.now.getFullYear();
     return `
         <h1 class="calender__title">Calender</h1>
         <table class="calender__table">
@@ -25,11 +31,11 @@ class CalenderView extends View {
             </tr>
             <tr>
               <td data-direction="-1" class="left" style="text-align:left;" ><</td>
-              <td class="month" colspan="5">${months[month]}</td>
+              <td class="month" colspan="5">${obj.getMonths()[month]}</td>
               <td data-direction="1" class="right" style="text-align:right;" >></td>
             <tr>
             <tr class="calender__header">
-              <td>${days.join('</td><td>')}</td>
+              <td>${obj.getDays().join('</td><td>')}</td>
             </tr>
           </thead>
           <tbody class="calender__body">
@@ -104,3 +110,4 @@ class CalenderView extends View {
   }
 
 }
+module.exports = CalenderView;
