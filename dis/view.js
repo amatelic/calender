@@ -21,8 +21,7 @@ class View {
    * @return DOM element
    */
   render() {
-    console.log(this.$el);
-    return this.$el.innerHTML = this.template(this.data);
+    return this.$el.innerHTML = this.template(this.model);
   }
   /**
    * Method that fires after render

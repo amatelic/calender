@@ -7,8 +7,6 @@ var valueExist  = h.valueExist;
 class CalenderView extends View {
   constructor(obj) {
     super(obj);
-    console.log(this);
-    // this.toast = new ToastView({el: '.toast'});
   }
 
   events() {
@@ -20,8 +18,8 @@ class CalenderView extends View {
   }
 
   template(obj) {
-    let month = obj.now.getMonth();
-    let year = obj.now.getFullYear();
+    let month = obj.getNow().getMonth();
+    let year = obj.getNow().getFullYear();
     return `
         <h1 class="calender__title">Calender</h1>
         <table class="calender__table">
@@ -39,27 +37,27 @@ class CalenderView extends View {
             </tr>
           </thead>
           <tbody class="calender__body calender--mini--body">
-            ${this.createTables(this.data.getDaysInMonth(month, year))}
+            ${this.createTables(this.model.getDaysInMonth(month, year))}
           </tbody>
     `;
   }
 
   renderAfter() {
-    //have to get better solution
-    fetch('http://localhost:3000/dates')
-      .then(data => data.json())
+    var month = this.model.getNow().getMonth();
+    this.model.setUrl({param: month});
+    this.model.fetchData({param: month})
       .then(this.displayNotifications.bind(this));
   }
 
-  displayNotifications(data) {
-    this.toast.addData(data.text);
+  displayNotifications(model) {
+    this.toast.addData(model.text);
     let table = Array.from(this.$el.querySelector('tbody').querySelectorAll('td'));
-    let days = data.days;
+    let days = model.days;
 
     table.filter((el) => {
       let day = parseInt(el.innerHTML);
-      return valueExist(days, day) || day === this.data.today;
-    }).map(this.addCalenderEvents.bind(data));
+      return valueExist(days, day) || day === this.model.getToday();
+    }).map(this.addCalenderEvents.bind(model));
 
   }
 
@@ -73,9 +71,9 @@ class CalenderView extends View {
   }
 
   updateDOM(month, year) {
-    this.$el.querySelector('.month').innerHTML = this.data.months[month];
+    this.$el.querySelector('.month').innerHTML = this.model.getMonths()[month];
     this.$el.querySelector('.year').innerHTML = `<h3>${year}</h3>`;
-    this.$el.querySelector('tbody').innerHTML = this.createTables(this.data.getDaysInMonth(month, year));
+    this.$el.querySelector('tbody').innerHTML = this.createTables(this.model.getDaysInMonth(month, year));
   }
   /**
    * Update the the date now varible for new dates
@@ -84,10 +82,11 @@ class CalenderView extends View {
    */
   changeMonth(e) {
     let direction = parseInt(e.target.dataset.direction);
-    let month = direction + this.data.now.getMonth();
-    this.data.now.setMonth(month);
-    let year = this.data.now.getFullYear();
-    month = this.data.now.getMonth();
+    console.log(this.model.getNow());
+    let month = direction + this.model.getNow().getMonth();
+    this.model.getNow().setMonth(month);
+    let year = this.model.getNow().getFullYear();
+    month = this.model.getNow().getMonth();
     this.updateDOM(month, year);
     this.renderAfter();
   }
@@ -97,14 +96,14 @@ class CalenderView extends View {
    * @param String
    */
   createTables(days) {
-    return `<tr> ${days.map((data) => {
-      return `<td>${data.join('</td><td>')}</td>`;
+    return `<tr> ${days.map((model) => {
+      return `<td>${model.join('</td><td>')}</td>`;
     }).join('</tr><tr>')} </tr> `;
   }
 
   show(e) {
     if (e.target.localName === 'td') {
-      var id = e.target.getAttribute('data-id');
+      var id = e.target.getAttribute('model-id');
       this.toast.showNotification(id);
     }
   }

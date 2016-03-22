@@ -1,12 +1,20 @@
+var Model = require('./model');
 "use strict";
-class Calender {
+
+var dates = {
+  months: ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'],
+  days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+  now: new Date(),
+  today: (new Date()).getDate(),
+};
+
+class Calender  extends Model{
   constructor(config) {
-    config = config || {};
-    this.months = config.months || ['January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'];
-    this.days = config.days || ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    this.now = new Date();
-    this.today = (new Date()).getDate();
+    super(config = {});
+    this.url = 'http://localhost:3000';
+    this.date  = {};
+    Object.assign(this.date, dates);
   }
 
   getDaysInMonth(month, year) {
@@ -29,13 +37,13 @@ class Calender {
     return days;
   }
 
-  getMonths() {
-    return this.months;
-  }
+  getNow() {  return this.date.now; }
 
-  getDays() {
-    return this.days;
-  }
+  getToday() { return this.date.today; }
+
+  getMonths() { return this.date.months; }
+
+  getDays() { return this.date.days; }
 
 };
 

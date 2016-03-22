@@ -11,14 +11,15 @@ var toast = document.querySelector('.toast');
 var calender = new Calender();
 new CalenderView({
   $el: cal,
-  data: calender,
+  model: calender,
   toast: new ToastView({$el: toast}),
 });
 
+// var calender = new Calender();
+// new CalenderLargeView({
+//   $el: calL,
+//   model: calender,
+//   toast: new ToastView({$el: toast}),
+// });
 
-var calender = new Calender();
-new CalenderLargeView({
-  $el: calL,
-  data: calender,
-  toast: new ToastView({$el: toast}),
-});
+window.cal = calender;
