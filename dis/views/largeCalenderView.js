@@ -1,7 +1,7 @@
 "use strict";
 var View = require('./view');
 var ToastView = require('./toastView');
-var h = require('./helpers');
+var h = require('../helpers');
 var valueExist  = h.valueExist;
 
 class CalenderLargeView extends View {
@@ -36,7 +36,7 @@ class CalenderLargeView extends View {
               <td>${obj.getDays().join('</td><td>')}</td>
             </tr>
           </thead>
-          <tbody class="calender__body calender--large--body">
+          <tbody class="calender__body calender__body--large">
             ${this.createTables(this.model.getDaysInMonth(month, year))}
           </tbody>
     `;
@@ -44,9 +44,9 @@ class CalenderLargeView extends View {
 
   renderAfter() {
     //have to get better solution
-    fetch('http://localhost:3000/dates')
-      .then(model => model.json())
-      .then(this.displayNotifications.bind(this));
+    // fetch('http://localhost:3000/dates')
+    //   .then(model => model.json())
+    //   .then(this.displayNotifications.bind(this));
   }
 
   displayNotifications(model) {
@@ -103,7 +103,7 @@ class CalenderLargeView extends View {
   show(e) {
     if (e.target.localName === 'td') {
       var id = e.target.getAttribute('model-id');
-      this.toast.showNotification(id);
+      // this.toast.showNotification(id);
     }
   }
 

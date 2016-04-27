@@ -1,7 +1,7 @@
 "use strict";
 var View = require('./view');
 var ToastView = require('./toastView');
-var h = require('./helpers');
+var h = require('../helpers');
 var valueExist  = h.valueExist;
 
 class CalenderView extends View {
@@ -50,7 +50,6 @@ class CalenderView extends View {
   }
 
   displayNotifications(model) {
-    this.toast.addData(model.text);
     let table = Array.from(this.$el.querySelector('tbody').querySelectorAll('td'));
     let days = model.days;
 
@@ -65,7 +64,7 @@ class CalenderView extends View {
     let days = this.days; //binding the array with the bind function line 55
     let day = parseInt(el.innerHTML);
     let className = (valueExist(days, day))
-      ? 'calender__events' : 'calender__pointer';
+      ? 'calender__events--mini' : 'calender__pointer--mini';
     el.dataset.id = days.indexOf(day);
     el.classList.add(className);
   }
@@ -103,8 +102,8 @@ class CalenderView extends View {
 
   show(e) {
     if (e.target.localName === 'td') {
-      var id = e.target.getAttribute('model-id');
-      this.toast.showNotification(id);
+      var id = e.target.getAttribute('data-id');
+      // this.toast.showNotification(id);
     }
   }
 

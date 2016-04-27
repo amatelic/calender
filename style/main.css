@@ -5,7 +5,11 @@ html, body {
 
 body {
   margin: 0 0;
-  overflow-y: hidden; }
+  overflow-x: hidden; }
+
+.main {
+  margin: 0 auto;
+  width: 500px; }
 
 @keyframes animation--todays--day {
   0% {
@@ -21,7 +25,6 @@ body {
   100% {
     transform: scale(1); } }
 .calender--mini, .calender--large {
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   font-family: "Montserrat", sans-serif;
@@ -34,15 +37,13 @@ body {
 
 .calender__title {
   width: auto; }
-.calender__table td {
-  text-align: center;
-  font-size: 1em;
-  cursor: pointer;
-  user-select: none; }
-  .calender__table td:hover {
-    background: #37474F; }
-  .calender__table td:active {
-    background: #546E7A; }
+.calender__table {
+  border-spacing: 0; }
+  .calender__table td {
+    text-align: center;
+    font-size: 1em;
+    cursor: pointer;
+    user-select: none; }
 .calender__body td {
   user-select: none;
   webkit-touch-callout: none;
@@ -54,30 +55,16 @@ body {
     background: none;
     color: white; }
 
-.calender__thead tr > td:hover {
+.calender__thead > td:hover {
   background: none; }
 
-.calender__thead tr > td > h3 {
+.calender__thead > h3 {
   padding: 0;
   margin: 0px 0px 20px 0px;
   font-size: 1.5em; }
 
-.calender__body tr > td:active {
+.calender__body {
   color: white;
-  /*background: #37474F */
-  box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.75);
-  animation-duration: 4s; }
-
-td.calender__pointer {
-  background: #FF9800;
-  color: #546E7A;
-  animation-name: animation--todays--day;
-  animation-duration: 2s; }
-
-td.calender__events {
-  background: #66BB6A;
-  color: #546E7A;
-  animation-name: animation--todays--day;
   animation-duration: 4s; }
 
 .calender--mini {
@@ -89,14 +76,48 @@ td.calender__events {
   .calender--mini--body td {
     border-radius: 50%;
     padding: 13px 10px; }
+    .calender--mini--body td:hover {
+      background: #37474F; }
+    .calender--mini--body td:active {
+      box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.75); }
+  .calender--mini--body td:empty {
+    cursor: auto;
+    background: #607d8b; }
+    .calender--mini--body td:empty:active {
+      background: #607d8b;
+      box-shadow: none; }
+
+td.calender__pointer--mini {
+  background: #FF9800;
+  color: #546E7A;
+  animation-name: animation--todays--day;
+  animation-duration: 2s; }
+
+td.calender__events--mini {
+  background: #66BB6A;
+  color: #546E7A;
+  animation-name: animation--todays--day;
+  animation-duration: 4s; }
 
 .calender--large {
-  background: #607D8B;
-  color: #ECEFF1; }
-  .calender--large--table {
-    min-width: 1000px; }
-  .calender--large--body td {
-    padding: 13px 10px; }
+  width: 80%;
+  background: #EEEEEE;
+  color: #616161; }
+
+.calender__body--large {
+  color: #616161; }
+  .calender__body--large tr {
+    border: 4px solid #616161;
+    padding: 0;
+    margin: 0; }
+  .calender__body--large td {
+    margin: 0;
+    padding: 0;
+    width: 100px;
+    height: 100px;
+    border: 2px solid #616161; }
+    .calender__body--large td:empty {
+      border: 2px solid #EEEEEE; }
 
 .toast {
   position: absolute;
@@ -114,5 +135,48 @@ td.calender__events {
 
 .toast--show {
   transform: translateY(0px); }
+
+.calender__app {
+  display: flex;
+  background: red; }
+  .calender__app hr {
+    border: 1px solid #616161; }
+
+.calender__list {
+  width: 20%;
+  background: #E0E0E0;
+  padding: 10px;
+  color: #616161;
+  font-family: "Montserrat", sans-serif;
+  box-shadow: 2px 2px 20px 1px gray; }
+
+.lists {
+  height: 500px;
+  overflow-y: scroll; }
+
+.list__items {
+  margin-top: 5px;
+  background: #E0E0E0;
+  padding: 5px;
+  box-shadow: 2px 2px 20px 1px gray;
+  text-align: center; }
+  .list__items p {
+    font-size: 0.8em; }
+  .list__items blockquote {
+    font-size: 0.6em; }
+
+.add__list__item {
+  display: flex;
+  flex-direction: column; }
+  .add__list__item input, .add__list__item textarea, .add__list__item button {
+    border: none;
+    margin: 5px 0px; }
+  .add__list__item h3 {
+    margin: 0px; }
+  .add__list__item button {
+    color: white;
+    background: #BDBDBD;
+    width: 40%;
+    height: 30px; }
 
 /*# sourceMappingURL=main.css.map */

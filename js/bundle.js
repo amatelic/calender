@@ -50,11 +50,116 @@ class Calender  extends Model{
 
 module.exports = Calender;
 
-},{"./model":6}],2:[function(require,module,exports){
+},{"./model":4}],2:[function(require,module,exports){
+"use strict";
+
+function valueExist(collection, value) {
+  return collection.indexOf(value) !== -1;
+}
+
+
+module.exports = {
+  valueExist,
+};
+
+},{}],3:[function(require,module,exports){
+var Calender = require('./calender');
+var CalenderView = require('./views/calenderView');
+var ToastView = require('./views/toastView');
+var CalenderLargeView = require('./views/largeCalenderView');
+var ListView = require('./views/listView');
+
+var cal = document.querySelector('.calender--mini');
+var calL = document.querySelector('.calender--large');
+var listView = document.querySelector('.calender__list');
+var toast = document.querySelector('.toast');
+
+var calender = new Calender();
+new CalenderView({
+  $el: cal,
+  model: calender,
+});
+
+var calender = new Calender();
+new CalenderLargeView({
+  $el: calL,
+  model: calender,
+});
+
+var endT = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+var endY = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
+
+var data = [
+  {
+    title: 'Work on project',
+    description: 'blb blat',
+    startDate: new Date(),
+    endDate: endT,
+  },
+  {
+    title: 'Create project',
+    description: 'Haha thi is a test',
+    startDate: new Date(),
+    endDate: endY,
+  },
+];
+
+new ListView({
+  $el: listView,
+  data: data,
+});
+
+window.cal = calender;
+
+},{"./calender":1,"./views/calenderView":5,"./views/largeCalenderView":6,"./views/listView":7,"./views/toastView":8}],4:[function(require,module,exports){
+"use strict";
+//@TODO  Can make fetch request
+//@TODO create http parser
+//@TODO create error handling
+class Model {
+  constructor(data) {
+    this.attributes = {};
+    this.url = '';
+    this.setAttributes(data);
+  }
+
+  setAttributes(data) {
+    Object.assign(this.attributes, data);
+  }
+
+  setUrl({url, param = ''}) {
+    var url = 'http://localhost:3000';//(url) ? url : this.url;
+    var param = (param) ? `/${param}` : ``;
+    this.url = url + param;
+  }
+
+  fetchData(param) {
+    return fetch(this.url, param)
+      .then(this.parse.bind(this))
+      .then(data => {
+        Object.assign(this.attributes, data);
+        return data;
+      })
+      .catch(this.error);
+  }
+
+  parse(response) {
+    return response.json();
+  }
+
+  error(error) {
+    return [];
+  }
+
+};
+
+module.exports = Model;
+
+},{}],5:[function(require,module,exports){
 "use strict";
 var View = require('./view');
 var ToastView = require('./toastView');
-var h = require('./helpers');
+var h = require('../helpers');
 var valueExist  = h.valueExist;
 
 class CalenderView extends View {
@@ -103,7 +208,6 @@ class CalenderView extends View {
   }
 
   displayNotifications(model) {
-    this.toast.addData(model.text);
     let table = Array.from(this.$el.querySelector('tbody').querySelectorAll('td'));
     let days = model.days;
 
@@ -118,7 +222,7 @@ class CalenderView extends View {
     let days = this.days; //binding the array with the bind function line 55
     let day = parseInt(el.innerHTML);
     let className = (valueExist(days, day))
-      ? 'calender__events' : 'calender__pointer';
+      ? 'calender__events--mini' : 'calender__pointer--mini';
     el.dataset.id = days.indexOf(day);
     el.classList.add(className);
   }
@@ -156,31 +260,19 @@ class CalenderView extends View {
 
   show(e) {
     if (e.target.localName === 'td') {
-      var id = e.target.getAttribute('model-id');
-      this.toast.showNotification(id);
+      var id = e.target.getAttribute('data-id');
+      // this.toast.showNotification(id);
     }
   }
 
 }
 module.exports = CalenderView;
 
-},{"./helpers":3,"./toastView":7,"./view":8}],3:[function(require,module,exports){
-"use strict";
-
-function valueExist(collection, value) {
-  return collection.indexOf(value) !== -1;
-}
-
-
-module.exports = {
-  valueExist,
-};
-
-},{}],4:[function(require,module,exports){
+},{"../helpers":2,"./toastView":8,"./view":9}],6:[function(require,module,exports){
 "use strict";
 var View = require('./view');
 var ToastView = require('./toastView');
-var h = require('./helpers');
+var h = require('../helpers');
 var valueExist  = h.valueExist;
 
 class CalenderLargeView extends View {
@@ -215,7 +307,7 @@ class CalenderLargeView extends View {
               <td>${obj.getDays().join('</td><td>')}</td>
             </tr>
           </thead>
-          <tbody class="calender__body calender--large--body">
+          <tbody class="calender__body calender__body--large">
             ${this.createTables(this.model.getDaysInMonth(month, year))}
           </tbody>
     `;
@@ -223,9 +315,9 @@ class CalenderLargeView extends View {
 
   renderAfter() {
     //have to get better solution
-    fetch('http://localhost:3000/dates')
-      .then(model => model.json())
-      .then(this.displayNotifications.bind(this));
+    // fetch('http://localhost:3000/dates')
+    //   .then(model => model.json())
+    //   .then(this.displayNotifications.bind(this));
   }
 
   displayNotifications(model) {
@@ -282,85 +374,78 @@ class CalenderLargeView extends View {
   show(e) {
     if (e.target.localName === 'td') {
       var id = e.target.getAttribute('model-id');
-      this.toast.showNotification(id);
+      // this.toast.showNotification(id);
     }
   }
 
 }
 module.exports = CalenderLargeView;
 
-},{"./helpers":3,"./toastView":7,"./view":8}],5:[function(require,module,exports){
-var Calender = require('./calender');
-var CalenderView = require('./calenderView');
-var ToastView = require('./toastView');
-var CalenderLargeView = require('./largeCalenderView');
-
-var cal = document.querySelector('.calender--mini');
-var calL = document.querySelector('.calender--large');
-
-var toast = document.querySelector('.toast');
-
-var calender = new Calender();
-new CalenderView({
-  $el: cal,
-  model: calender,
-  toast: new ToastView({$el: toast}),
-});
-
-// var calender = new Calender();
-// new CalenderLargeView({
-//   $el: calL,
-//   model: calender,
-//   toast: new ToastView({$el: toast}),
-// });
-
-window.cal = calender;
-
-},{"./calender":1,"./calenderView":2,"./largeCalenderView":4,"./toastView":7}],6:[function(require,module,exports){
+},{"../helpers":2,"./toastView":8,"./view":9}],7:[function(require,module,exports){
 "use strict";
-//@TODO  Can make fetch request
-//@TODO create http parser
-//@TODO create error handling
-class Model {
-  constructor(data) {
-    this.attributes = {};
-    this.url = '';
-    this.setAttributes(data);
+//@TODO create model for test data
+var View = require('./view');
+
+class ListView extends View {
+  constructor(conf) {
+    super(conf);
+    this.textData = [];
+  }
+  events() {
+    return {
+      'click .addItem': 'addItem',
+    };
   }
 
-  setAttributes(data) {
-    Object.assign(this.attributes, data);
+  addItem(e) {
+    var data = Array.from(this.$el.querySelectorAll('input')).map(node => node.value);
+    var description = this.$el.querySelector('textarea').value;
+    var tmp = this.addEvent({title: data[0], description, startDate: new Date(data[1]), endDate: new Date(data[2])});
+    var div = document.createElement('div');
+    div.innerHTML = tmp;
+    this.$el.querySelector('.lists').appendChild(div);
   }
 
-  setUrl({url, param = ''}) {
-    var url = 'http://localhost:3000';//(url) ? url : this.url;
-    var param = (param) ? `/${param}` : ``;
-    this.url = url + param;
+  template() {
+    return `
+    <h3>Reminders:</h3>
+    <div>
+      <div class="lists">
+        ${this.data.map(this.addEvent).join('')}
+      </div>
+      <hr/>
+      <div class="add__list__item">
+        <h3>Title:</h3>
+        <input type="text">
+        <h3>Body:</h3>
+        <textarea></textarea>
+        <h3>From:</h3>
+        <input type="date">
+        <h3>To:</h3>
+        <input type="date">
+        <button class="addItem">Submit</button>
+      </div>
+    </div>`;
   }
 
-  fetchData(param) {
-    return fetch(this.url, param)
-      .then(this.parse.bind(this))
-      .then(data => {
-        Object.assign(this.attributes, data);
-        return data;
-      })
-      .catch(this.error);
+  addEvent(model) {
+    return `
+      <div class="list__items">
+        <h4>${model.title}</h4>
+        <p>${model.description}</p>
+        <blockquote>From: ${convertDate(model.startDate)} - ${convertDate(model.endDate)}</blockquote>
+      </div>
+    `;
   }
+}
 
-  parse(response) {
-    return response.json();
-  }
+function convertDate(date) {
+  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+}
 
-  error(error) {
-    return [];
-  }
+module.exports = ListView;
 
-};
-
-module.exports = Model;
-
-},{}],7:[function(require,module,exports){
+},{"./view":9}],8:[function(require,module,exports){
 "use strict";
 //@TODO create model for test data
 var View = require('./view');
@@ -387,7 +472,7 @@ class ToastView extends View {
    * Function for removing the notification
    */
   removeNotification() {
-    setTimeout(_ => this.classList('remove', 'toast--show'), 5000);
+    setTimeout(_ => this.classList('remove', 'toast--show'), 2500);
   }
 
   /** Function for manipulating with the classList property
@@ -405,7 +490,7 @@ class ToastView extends View {
 
 module.exports = ToastView;
 
-},{"./view":8}],8:[function(require,module,exports){
+},{"./view":9}],9:[function(require,module,exports){
 "use strict";
 const config = {
   $el: '',
@@ -414,6 +499,7 @@ const config = {
 class View {
   constructor(viewConfig) {
     Object.assign(this, config, viewConfig);
+    if (!this.$el)  throw Error('You did\'t bind to an element.');
     this.renderBefore();
     this.render();
     this.renderAfter();
@@ -459,4 +545,4 @@ class View {
 
 module.exports = View;
 
-},{}]},{},[5]);
+},{}]},{},[3]);

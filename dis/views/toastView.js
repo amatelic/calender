@@ -24,7 +24,7 @@ class ToastView extends View {
    * Function for removing the notification
    */
   removeNotification() {
-    setTimeout(_ => this.classList('remove', 'toast--show'), 5000);
+    setTimeout(_ => this.classList('remove', 'toast--show'), 2500);
   }
 
   /** Function for manipulating with the classList property

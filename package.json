@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "live-server & json-server ./data.json",
+    "compile": "watchify ./dis/main.js -o ./js/bundle.js",
+    "compile-sass": "compass watch",
     "test": "tape test/calenderview.js --harmony-destructuring "
   },
   "author": "Anže Matelič <amatelic93@gmail.com>",

@@ -10,3 +10,26 @@
     td
       border-radius: 50%
       padding: 13px 10px
+      &:hover
+        background: #37474F
+      &:active
+        box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.75)
+    td:empty
+      cursor: auto
+      background: #607d8b
+      &:active
+        background: #607d8b
+        box-shadow: none
+// .calender--mini tr > td:active
+
+td.calender__pointer--mini
+  background: #FF9800
+  color: #546E7A
+  animation-name: animation--todays--day
+  animation-duration: 2s
+
+td.calender__events--mini
+  background: #66BB6A
+  color: #546E7A
+  animation-name: animation--todays--day
+  animation-duration: 4s

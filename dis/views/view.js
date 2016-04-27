@@ -6,6 +6,7 @@ const config = {
 class View {
   constructor(viewConfig) {
     Object.assign(this, config, viewConfig);
+    if (!this.$el)  throw Error('You did\'t bind to an element.');
     this.renderBefore();
     this.render();
     this.renderAfter();

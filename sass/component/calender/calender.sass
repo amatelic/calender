@@ -1,9 +1,8 @@
 @import "./animation.sass"
 %calender
-  margin: 0 auto
   display: flex
   flex-direction: column
-  font-family: 'Montserrat', sans-serif
+  font-family: $primary-font
   align-items: center
   box-shadow: 2px 2px 20px 1px gray
   -webkit-user-select: none
@@ -15,24 +14,18 @@
 .calender
   +e(title)
     width: auto
-
   +e(table)
+    border-spacing: 0
     td
       text-align: center
       font-size: 1em
       cursor: pointer
       user-select: none
-      &:hover
-        background: #37474F
-      &:active
-        background: #546E7A
-
   +e(body)
     td
       user-select: none
       webkit-touch-callout: none
       webkit-user-select: none
-
   +e(header)
     td
       width: 35px
@@ -42,37 +35,18 @@
         color: white
 
 
-.calender__thead tr > td:hover
+.calender__thead > td:hover
   background: none
 
-
-.calender__thead tr > td > h3
+.calender__thead > h3
   padding: 0
   margin: 0px 0px 20px 0px
   font-size: 1.5em
 
-
-
-.calender__body tr > td:active
+.calender__body
   color: white
-  /*background: #37474F*/
-  box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.75)
   animation-duration: 4s
 
-
-
-td.calender__pointer
-  background: #FF9800
-  color: #546E7A
-  animation-name: animation--todays--day
-  animation-duration: 2s
-
-
-td.calender__events
-  background: #66BB6A
-  color: #546E7A
-  animation-name: animation--todays--day
-  animation-duration: 4s
 
 
 @import "./calender-mini.sass"
